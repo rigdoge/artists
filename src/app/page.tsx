@@ -19,29 +19,18 @@ interface Artist {
 
 const sponsoredArtists: Artist[] = [
   {
-    id: 14,
+    id: 6,
     year: 2021,
-    name: "David Zhang",
-    location: "Seoul, South Korea",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80",
+    name: "Yuki Tanaka",
+    location: "Berlin, Germany",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80",
     social: {
-      instagram: "https://instagram.com/davidzhang",
-      website: "https://davidzhang.art"
+      instagram: "https://instagram.com/yukitanaka",
+      website: "https://yukitanaka.art"
     }
   },
   {
-    id: 13,
-    year: 2020,
-    name: "Nina Patel",
-    location: "Mumbai, India",
-    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/ninapatel",
-      website: "https://nina.art"
-    }
-  },
-  {
-    id: 12,
+    id: 1,
     year: 2025,
     name: "Marcus Rivera",
     location: "New York, USA",
@@ -52,7 +41,7 @@ const sponsoredArtists: Artist[] = [
     }
   },
   {
-    id: 11,
+    id: 2,
     year: 2024,
     name: "Sarah Chen",
     location: "Tokyo, Japan",
@@ -63,52 +52,8 @@ const sponsoredArtists: Artist[] = [
     }
   },
   {
-    id: 1,
-    year: 2023,
-    name: "Sarah Chen",
-    location: "Tokyo, Japan",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/sarahchen",
-      website: "https://sarahchen.art"
-    }
-  },
-  {
-    id: 2,
-    year: 2023,
-    name: "Marcus Rivera",
-    location: "New York, USA",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/marcusrivera",
-      website: "https://marcusrivera.com"
-    }
-  },
-  {
     id: 3,
-    year: 2022,
-    name: "Yuki Tanaka",
-    location: "Berlin, Germany",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/yukitanaka",
-      website: "https://yukitanaka.art"
-    }
-  },
-  {
-    id: 4,
-    year: 2022,
-    name: "Elena Kowalski",
-    location: "Paris, France",
-    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/elenakowalski",
-      website: "https://elena.art"
-    }
-  },
-  {
-    id: 5,
-    year: 2021,
+    year: 2023,
     name: "David Zhang",
     location: "Seoul, South Korea",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80",
@@ -118,30 +63,8 @@ const sponsoredArtists: Artist[] = [
     }
   },
   {
-    id: 6,
-    year: 2021,
-    name: "Isabella Santos",
-    location: "São Paulo, Brazil",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/isabellasantos",
-      website: "https://isabella.art"
-    }
-  },
-  {
-    id: 7,
-    year: 2020,
-    name: "Alex Morgan",
-    location: "London, UK",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/alexmorgan",
-      website: "https://alexmorgan.art"
-    }
-  },
-  {
-    id: 8,
-    year: 2020,
+    id: 4,
+    year: 2022,
     name: "Nina Patel",
     location: "Mumbai, India",
     image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80",
@@ -151,178 +74,193 @@ const sponsoredArtists: Artist[] = [
     }
   },
   {
-    id: 9,
-    year: 2019,
-    name: "Carlos Rodriguez",
-    location: "Barcelona, Spain",
-    image: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=800&q=80",
+    id: 5,
+    year: 2021,
+    name: "Yuki Tanaka",
+    location: "Berlin, Germany",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80",
     social: {
-      instagram: "https://instagram.com/carlosrodriguez",
-      website: "https://carlos.art"
-    }
-  },
-  {
-    id: 10,
-    year: 2019,
-    name: "Sophie Laurent",
-    location: "Montreal, Canada",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&q=80",
-    social: {
-      instagram: "https://instagram.com/sophielaurent",
-      website: "https://sophie.art"
+      instagram: "https://instagram.com/yukitanaka",
+      website: "https://yukitanaka.art"
     }
   }
 ];
 
-// Tattoo Needle SVG Component
-const TattooNeedle = ({ isHovered, color = "#34D399" }: { isHovered: boolean; color?: string }) => (
-  <motion.svg
-    width="12"
-    height="120"
-    viewBox="0 0 24 240"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="absolute left-1/2 -translate-x-1/2"
+// TattooMachine SVG Component
+const TattooMachine = ({ isHovered, color = "#34D399" }: { isHovered: boolean; color?: string }) => (
+  <div 
     style={{ 
-      filter: isHovered ? 'drop-shadow(0 0 8px rgba(52, 211, 153, 0.5))' : 'none',
-    }}
-    initial={{ 
-      y: 200,
-      opacity: 0,
-      scale: 0.8
-    }}
-    animate={{ 
-      y: isHovered ? -5 : 0,
-      opacity: 1,
-      scale: 1
-    }}
-    transition={{ 
-      type: "spring",
-      stiffness: 300,
-      damping: 20,
-      mass: 0.8,
-      delay: 0.8
+      transform: 'rotate(30deg)',
+      transformOrigin: 'center bottom',
+      display: 'inline-block'
     }}
   >
-    {/* Multiple needle tips */}
-    <motion.g
-      animate={{
-        y: isHovered ? [0, -2, 0] : 0
+    <motion.svg
+      width="40"
+      height="160"
+      viewBox="0 0 80 320"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ 
+        filter: isHovered ? 'drop-shadow(0 0 8px rgba(52, 211, 153, 0.5))' : 'none',
       }}
-      transition={{
-        repeat: Infinity,
-        duration: 0.08,
-        ease: "linear",
-        repeatType: "reverse"
+      initial={{ 
+        y: 200,
+        opacity: 0,
+        scale: 0.8
+      }}
+      animate={{ 
+        y: isHovered ? -5 : 0,
+        opacity: 1,
+        scale: 1
+      }}
+      transition={{ 
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+        mass: 0.8,
+        delay: 0.8
       }}
     >
-      {/* Needle array */}
-      {[...Array(9)].map((_, i) => (
-        <motion.path
-          key={i}
-          d={`M${8.5 + i * 0.8} 50 L${8.9 + i * 0.8} 15 L${9.3 + i * 0.8} 50`}
-          fill="#D1D5DB"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 0.9
-          }}
-          transition={{
-            delay: 1 + i * 0.1
-          }}
-        />
-      ))}
-    </motion.g>
-
-    {/* Rest of the components with initial animations */}
-    <motion.path
-      d="M7 50 L7 70 L17 70 L17 50 L7 50"
-      fill="rgba(255, 255, 255, 0.2)"
-      initial={{ opacity: 0 }}
-      animate={{
-        fill: isHovered ? "rgba(255, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.2)",
-        opacity: 1
-      }}
-      transition={{ delay: 1.2 }}
-    />
-
-    <motion.path
-      d="M5 70 L5 180 L19 180 L19 70 L5 70"
-      fill="rgba(218, 165, 32, 0.8)"
-      initial={{ opacity: 0 }}
-      animate={{
-        fill: isHovered ? "rgba(218, 165, 32, 0.9)" : "rgba(218, 165, 32, 0.8)",
-        opacity: 1
-      }}
-      transition={{ delay: 1.3 }}
-    />
-
-    <motion.rect
-      x="3"
-      y="90"
-      width="2"
-      height="60"
-      fill="rgba(0, 0, 0, 0.3)"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1.4 }}
-    />
-    <motion.rect
-      x="19"
-      y="90"
-      width="2"
-      height="60"
-      fill="rgba(0, 0, 0, 0.3)"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1.4 }}
-    />
-
-    <motion.rect
-      x="7"
-      y="120"
-      width="10"
-      height="40"
-      fill={color}
-      initial={{ opacity: 0 }}
-      animate={{
-        fillOpacity: isHovered ? [0.6, 0.8, 0.6] : 0.6,
-        opacity: 1,
-        height: isHovered ? [40, 38, 40] : 40
-      }}
-      transition={{
-        repeat: Infinity,
-        duration: 1,
-        ease: "easeInOut",
-        delay: 1.5
-      }}
-    />
-
-    <motion.path
-      d="M6 180 L6 220 L18 220 L18 180 L6 180"
-      fill="rgba(255, 255, 255, 0.15)"
-      initial={{ opacity: 0 }}
-      animate={{
-        fill: isHovered ? "rgba(255, 255, 255, 0.25)" : "rgba(255, 255, 255, 0.15)",
-        opacity: 1
-      }}
-      transition={{ delay: 1.6 }}
-    />
-
-    {/* Metallic details with fade in */}
-    {[85, 100, 150].map((y, i) => (
+      {/* Top Connection */}
       <motion.rect
-        key={i}
-        x="4"
-        y={y}
-        width="16"
-        height="2"
-        fill="rgba(255, 255, 255, 0.4)"
+        x="30"
+        y="20"
+        width="20"
+        height="30"
+        fill="#1A1A1A"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.7 + i * 0.1 }}
+        transition={{ delay: 1.1 }}
       />
-    ))}
-  </motion.svg>
+
+      {/* Main Body */}
+      <motion.rect
+        x="25"
+        y="50"
+        width="30"
+        height="160"
+        rx="2"
+        fill="#000000"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+      />
+
+      {/* Gold Ring */}
+      <motion.rect
+        x="25"
+        y="120"
+        width="30"
+        height="4"
+        fill="#FFD700"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.3 }}
+      />
+
+      {/* Grip Pattern */}
+      {[...Array(4)].map((_, i) => (
+        <motion.rect
+          key={i}
+          x="25"
+          y={140 + i * 12}
+          width="30"
+          height="8"
+          fill="#1A1A1A"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 + i * 0.1 }}
+        />
+      ))}
+
+      {/* Bottom Section */}
+      <motion.rect
+        x="30"
+        y="210"
+        width="20"
+        height="30"
+        fill="#2C2C2C"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+      />
+
+      {/* Needle */}
+      <motion.g
+        animate={{
+          y: isHovered ? [0, -1, 0] : 0
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 0.05,
+          ease: "linear",
+          repeatType: "reverse"
+        }}
+      >
+        <motion.rect
+          x="38"
+          y="240"
+          width="4"
+          height="20"
+          fill="#A0A0A0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6 }}
+        />
+        <motion.rect
+          x="39"
+          y="260"
+          width="2"
+          height="10"
+          fill="#D4D4D4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.7 }}
+        />
+      </motion.g>
+
+      {/* Power Button */}
+      <motion.circle
+        cx="40"
+        cy="90"
+        r="4"
+        fill={color}
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0.6, 1, 0.6],
+          scale: isHovered ? [1, 1.2, 1] : 1
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 2,
+          ease: "easeInOut"
+        }}
+      />
+
+      {/* Highlights */}
+      <motion.rect
+        x="25"
+        y="50"
+        width="2"
+        height="160"
+        fill="#333333"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ delay: 1.8 }}
+      />
+      <motion.rect
+        x="53"
+        y="50"
+        width="2"
+        height="160"
+        fill="#333333"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ delay: 1.8 }}
+      />
+    </motion.svg>
+  </div>
 );
 
 const TimelineItem = ({ artist, index }: { artist: Artist; index: number }) => {
@@ -334,9 +272,22 @@ const TimelineItem = ({ artist, index }: { artist: Artist; index: number }) => {
 
   return (
     <div className="group relative flex items-center gap-8 py-16">
-      {/* Timeline line only */}
-      <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2">
-        <div className="w-[2px] h-full bg-gradient-to-b from-transparent via-white/10 to-transparent" />
+      {/* Timeline line */}
+      <div className="absolute left-1/2 top-[-32px] bottom-[-32px] -translate-x-1/2">
+        <div 
+          className="w-[4px] h-full" 
+          style={{
+            background: `linear-gradient(
+              to bottom,
+              transparent,
+              rgba(255, 255, 255, 0.3) 20%,
+              rgba(255, 255, 255, 0.3) 80%,
+              transparent
+            )`,
+            filter: 'blur(0.5px)',
+            boxShadow: '0 0 8px rgba(255, 255, 255, 0.2)'
+          }}
+        />
       </div>
 
       {/* Content */}
@@ -533,8 +484,8 @@ const Firework = ({ id, delay = 0 }: { id: string; delay?: number }) => {
 
   React.useEffect(() => {
     setPosition({ left: Math.random() * 80 + 10 });
-    setSparkColors(Array(20).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
-    setParticleColors(Array(30).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
+    setSparkColors(Array(30).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
+    setParticleColors(Array(50).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
   }, [colors]);
 
   return (
@@ -544,7 +495,8 @@ const Firework = ({ id, delay = 0 }: { id: string; delay?: number }) => {
       style={{
         left: `${position.left}%`,
         animationDelay: `${delay}s`,
-        background: colors[0]
+        background: colors[0],
+        transform: 'scale(2)',
       }}
     >
       <div className="firework-trail" />
@@ -553,11 +505,13 @@ const Firework = ({ id, delay = 0 }: { id: string; delay?: number }) => {
           key={`${id}-spark-${i}`}
           className="spark"
           style={{
-            '--angle': `${(360 / 20) * i}deg`,
-            '--distance': '100px',
+            '--angle': `${(360 / 30) * i}deg`,
+            '--distance': '200px',
             background: color,
-            animation: `spark 0.8s ease-out forwards ${delay + 0.5}s`,
-            boxShadow: `0 0 4px ${color}`,
+            animation: `spark 1.2s ease-out forwards ${delay + 0.5}s`,
+            boxShadow: `0 0 8px ${color}, 0 0 16px ${color}`,
+            width: '4px',
+            height: '4px',
           } as React.CSSProperties}
         />
       ))}
@@ -566,11 +520,13 @@ const Firework = ({ id, delay = 0 }: { id: string; delay?: number }) => {
           key={`${id}-particle-${i}`}
           className="firework-particle"
           style={{
-            '--x': `${(Math.random() - 0.5) * 200}px`,
-            '--y': `${(Math.random() - 0.5) * 200}px`,
+            '--x': `${(Math.random() - 0.5) * 400}px`,
+            '--y': `${(Math.random() - 0.5) * 400}px`,
             background: color,
-            boxShadow: `0 0 4px ${color}`,
-            animationDelay: `${delay + 0.5}s`
+            boxShadow: `0 0 8px ${color}, 0 0 16px ${color}`,
+            animationDelay: `${delay + 0.5}s`,
+            width: '3px',
+            height: '3px',
           } as React.CSSProperties}
         />
       ))}
@@ -583,11 +539,11 @@ const StarrySky = () => {
   const [elements] = React.useState(() => ({
     stars: Array.from({ length: 50 }, (_, i) => ({
       id: `star-${i}`,
-      delay: i * 0.08 // 使用固定的延迟而不是随机值
+      delay: i * 0.08
     })),
-    fireworks: Array.from({ length: 4 }, (_, i) => ({
+    fireworks: Array.from({ length: 6 }, (_, i) => ({
       id: `firework-${i}`,
-      delay: i * 2 // 使用固定的延迟而不是随机值
+      delay: i * 1.5
     }))
   }));
 
@@ -600,6 +556,29 @@ const StarrySky = () => {
         <Firework key={firework.id} id={firework.id} delay={firework.delay} />
       ))}
     </div>
+  );
+};
+
+// Add JoinUsButton component
+const JoinUsButton = () => {
+  return (
+    <motion.div
+      className="flex justify-center mt-20 mb-32"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <motion.button
+        className="px-8 py-4 text-xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full 
+                   hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300
+                   shadow-lg hover:shadow-xl"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => window.location.href = 'mailto:contact@example.com'}
+      >
+        Join Us
+      </motion.button>
+    </motion.div>
   );
 };
 
@@ -620,7 +599,7 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.2 }}
       >
-        {/* Title section with needle */}
+        {/* Title section with tattoo machine */}
         <div className="relative mb-32">
           <motion.h1
             className="text-5xl font-bold text-center mb-4"
@@ -643,14 +622,21 @@ export default function Home() {
             Supporting visionary creators shaping the future of art
           </motion.p>
 
-          {/* Centered needle at the bottom of the title section */}
-          <div className="absolute left-1/2 -bottom-20 -translate-x-1/2">
-            <TattooNeedle isHovered={isHovered} color="#34D399" />
+          {/* Centered machine aligned with timeline */}
+          <div className="max-w-5xl mx-auto relative">
+            <div className="flex justify-center mb-32">
+              <div className="relative">
+                <div className="absolute left-1/2 top-[180px] -translate-x-1/2 w-[2px] h-[2000px] bg-gradient-to-b from-white/10 via-white/10 to-transparent" />
+                <div className="relative" style={{ marginBottom: "60px" }}>
+                  <TattooMachine isHovered={isHovered} color="#34D399" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <motion.div 
-          className="max-w-5xl mx-auto"
+          className="max-w-5xl mx-auto relative"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1 }}
@@ -658,6 +644,7 @@ export default function Home() {
           {sponsoredArtists.map((artist, index) => (
             <TimelineItem key={artist.id} artist={artist} index={index} />
           ))}
+          <JoinUsButton />
         </motion.div>
       </motion.div>
     </motion.main>
