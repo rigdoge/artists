@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import './globals.css';
 
 export default function GlobalError({
   error,
@@ -11,7 +12,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   return (
-    <html>
+    <html lang="en">
       <body>
         <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white flex items-center justify-center p-4">
           <motion.div 
@@ -25,7 +26,7 @@ export default function GlobalError({
               A critical error occurred. We apologize for the inconvenience.
             </p>
             <motion.button
-              onClick={reset}
+              onClick={() => reset()}
               className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
