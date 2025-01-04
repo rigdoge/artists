@@ -515,7 +515,7 @@ const Firework = ({ delay = 0 }: { delay?: number }) => {
             background: colors[Math.floor(Math.random() * colors.length)],
             animation: `spark 0.8s ease-out forwards ${delay + 0.5}s`,
             boxShadow: `0 0 4px ${colors[Math.floor(Math.random() * colors.length)]}`,
-          } as any}
+          } as React.CSSProperties}
         />
       ))}
       {[...Array(particleCount)].map((_, i) => (
@@ -528,7 +528,7 @@ const Firework = ({ delay = 0 }: { delay?: number }) => {
             background: colors[Math.floor(Math.random() * colors.length)],
             boxShadow: `0 0 4px ${colors[Math.floor(Math.random() * colors.length)]}`,
             animationDelay: `${delay + 0.5}s`
-          } as any}
+          } as React.CSSProperties}
         />
       ))}
     </motion.div>
