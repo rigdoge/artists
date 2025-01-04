@@ -11,6 +11,11 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  React.useEffect(() => {
+    // Log the error to an error reporting service
+    console.error('Global error:', error);
+  }, [error]);
+
   return (
     <html lang="en">
       <body>
@@ -23,7 +28,7 @@ export default function GlobalError({
           >
             <h2 className="text-3xl font-bold text-red-400">Something went wrong!</h2>
             <p className="text-gray-400 max-w-md mx-auto">
-              A critical error occurred. We apologize for the inconvenience.
+              {error.message || 'An unexpected error occurred'}
             </p>
             <motion.button
               onClick={() => reset()}

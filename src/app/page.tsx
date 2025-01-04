@@ -526,16 +526,16 @@ const Firework = ({ id, delay = 0 }: { id: string; delay?: number }) => {
   const [sparkColors, setSparkColors] = React.useState<string[]>([]);
   const [particleColors, setParticleColors] = React.useState<string[]>([]);
   
-  const colors = [
+  const colors = React.useMemo(() => [
     '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeead',
     '#ff9999', '#99ccff', '#ff99cc', '#99ff99', '#ffcc99'
-  ];
+  ], []);
 
   React.useEffect(() => {
     setPosition({ left: Math.random() * 80 + 10 });
     setSparkColors(Array(20).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
     setParticleColors(Array(30).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
-  }, []);
+  }, [colors]);
 
   return (
     <motion.div

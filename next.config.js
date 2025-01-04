@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+    unoptimized: true,
   },
   typescript: {
     ignoreBuildErrors: false,
@@ -9,6 +15,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  output: 'export',
+  distDir: '.next',
 }
 
 module.exports = nextConfig 
