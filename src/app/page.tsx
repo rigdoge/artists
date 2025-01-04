@@ -3,7 +3,43 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-const sponsoredArtists = [
+interface Social {
+  instagram: string;
+  website: string;
+}
+
+interface Artist {
+  id: number;
+  year: number;
+  name: string;
+  location: string;
+  image: string;
+  social: Social;
+}
+
+const sponsoredArtists: Artist[] = [
+  {
+    id: 12,
+    year: 2025,
+    name: "Marcus Rivera",
+    location: "New York, USA",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80",
+    social: {
+      instagram: "https://instagram.com/marcusrivera",
+      website: "https://marcusrivera.com"
+    }
+  },
+  {
+    id: 11,
+    year: 2024,
+    name: "Sarah Chen",
+    location: "Tokyo, Japan",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80",
+    social: {
+      instagram: "https://instagram.com/sarahchen",
+      website: "https://sarahchen.art"
+    }
+  },
   {
     id: 1,
     year: 2023,
@@ -267,7 +303,7 @@ const TattooNeedle = ({ isHovered, color = "#34D399" }: { isHovered: boolean; co
   </motion.svg>
 );
 
-const TimelineItem = ({ artist, index }: { artist: any; index: number }) => {
+const TimelineItem = ({ artist, index }: { artist: Artist; index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   // 为每个艺术家分配不同的颜色
@@ -438,18 +474,94 @@ const TimelineItem = ({ artist, index }: { artist: any; index: number }) => {
   );
 };
 
+// Star component
+const Star = ({ delay = 0 }: { delay?: number }) => (
+  <motion.div
+    className="star"
+    style={{
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      animationDelay: `${delay}s`
+    }}
+  />
+);
+
+// Firework component
+const Firework = ({ delay = 0 }: { delay?: number }) => {
+  const colors = [
+    '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeead',
+    '#ff9999', '#99ccff', '#ff99cc', '#99ff99', '#ffcc99'
+  ];
+  const sparkCount = 20;
+  const particleCount = 30;
+  
+  return (
+    <motion.div
+      className="firework"
+      style={{
+        left: `${Math.random() * 80 + 10}%`,
+        animationDelay: `${delay}s`,
+        background: colors[Math.floor(Math.random() * colors.length)]
+      }}
+    >
+      <div className="firework-trail" />
+      {[...Array(sparkCount)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="spark"
+          style={{
+            '--angle': `${(360 / sparkCount) * i}deg`,
+            '--distance': `${100 + Math.random() * 50}px`,
+            background: colors[Math.floor(Math.random() * colors.length)],
+            animation: `spark 0.8s ease-out forwards ${delay + 0.5}s`,
+            boxShadow: `0 0 4px ${colors[Math.floor(Math.random() * colors.length)]}`,
+          } as any}
+        />
+      ))}
+      {[...Array(particleCount)].map((_, i) => (
+        <motion.div
+          key={`particle-${i}`}
+          className="firework-particle"
+          style={{
+            '--x': `${(Math.random() - 0.5) * 200}px`,
+            '--y': `${(Math.random() - 0.5) * 200}px`,
+            background: colors[Math.floor(Math.random() * colors.length)],
+            boxShadow: `0 0 4px ${colors[Math.floor(Math.random() * colors.length)]}`,
+            animationDelay: `${delay + 0.5}s`
+          } as any}
+        />
+      ))}
+    </motion.div>
+  );
+};
+
+// StarrySky component
+const StarrySky = () => {
+  return (
+    <div className="starry-sky">
+      {[...Array(50)].map((_, i) => (
+        <Star key={`star-${i}`} delay={Math.random() * 4} />
+      ))}
+      {[...Array(4)].map((_, i) => (
+        <Firework key={`firework-${i}`} delay={Math.random() * 8} />
+      ))}
+    </div>
+  );
+};
+
 export default function Home() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.main 
-      className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white"
+      className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
+      <StarrySky />
       <motion.div 
-        className="container mx-auto px-4 py-20"
+        className="container mx-auto px-4 py-20 relative z-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.2 }}
