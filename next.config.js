@@ -10,7 +10,7 @@ const nextConfig = {
     unoptimized: true,
   },
   output: 'export',
-  distDir: '.next',
+  distDir: 'dist',
 }
 
 module.exports = nextConfig 
