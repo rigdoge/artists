@@ -19,6 +19,28 @@ interface Artist {
 
 const sponsoredArtists: Artist[] = [
   {
+    id: 14,
+    year: 2021,
+    name: "David Zhang",
+    location: "Seoul, South Korea",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80",
+    social: {
+      instagram: "https://instagram.com/davidzhang",
+      website: "https://davidzhang.art"
+    }
+  },
+  {
+    id: 13,
+    year: 2020,
+    name: "Nina Patel",
+    location: "Mumbai, India",
+    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80",
+    social: {
+      instagram: "https://instagram.com/ninapatel",
+      website: "https://nina.art"
+    }
+  },
+  {
     id: 12,
     year: 2025,
     name: "Marcus Rivera",
@@ -475,58 +497,79 @@ const TimelineItem = ({ artist, index }: { artist: Artist; index: number }) => {
 };
 
 // Star component
-const Star = ({ delay = 0 }: { delay?: number }) => (
-  <motion.div
-    className="star"
-    style={{
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      animationDelay: `${delay}s`
-    }}
-  />
-);
+const Star = ({ id, delay = 0 }: { id: string; delay?: number }) => {
+  const [position, setPosition] = React.useState({ top: 0, left: 0 });
+
+  React.useEffect(() => {
+    setPosition({
+      top: Math.random() * 100,
+      left: Math.random() * 100
+    });
+  }, []);
+
+  return (
+    <motion.div
+      key={id}
+      className="star"
+      style={{
+        top: `${position.top}%`,
+        left: `${position.left}%`,
+        animationDelay: `${delay}s`
+      }}
+    />
+  );
+};
 
 // Firework component
-const Firework = ({ delay = 0 }: { delay?: number }) => {
+const Firework = ({ id, delay = 0 }: { id: string; delay?: number }) => {
+  const [position, setPosition] = React.useState({ left: 50 });
+  const [sparkColors, setSparkColors] = React.useState<string[]>([]);
+  const [particleColors, setParticleColors] = React.useState<string[]>([]);
+  
   const colors = [
     '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeead',
     '#ff9999', '#99ccff', '#ff99cc', '#99ff99', '#ffcc99'
   ];
-  const sparkCount = 20;
-  const particleCount = 30;
-  
+
+  React.useEffect(() => {
+    setPosition({ left: Math.random() * 80 + 10 });
+    setSparkColors(Array(20).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
+    setParticleColors(Array(30).fill(0).map(() => colors[Math.floor(Math.random() * colors.length)]));
+  }, []);
+
   return (
     <motion.div
+      key={id}
       className="firework"
       style={{
-        left: `${Math.random() * 80 + 10}%`,
+        left: `${position.left}%`,
         animationDelay: `${delay}s`,
-        background: colors[Math.floor(Math.random() * colors.length)]
+        background: colors[0]
       }}
     >
       <div className="firework-trail" />
-      {[...Array(sparkCount)].map((_, i) => (
+      {sparkColors.map((color, i) => (
         <motion.div
-          key={i}
+          key={`${id}-spark-${i}`}
           className="spark"
           style={{
-            '--angle': `${(360 / sparkCount) * i}deg`,
-            '--distance': `${100 + Math.random() * 50}px`,
-            background: colors[Math.floor(Math.random() * colors.length)],
+            '--angle': `${(360 / 20) * i}deg`,
+            '--distance': '100px',
+            background: color,
             animation: `spark 0.8s ease-out forwards ${delay + 0.5}s`,
-            boxShadow: `0 0 4px ${colors[Math.floor(Math.random() * colors.length)]}`,
+            boxShadow: `0 0 4px ${color}`,
           } as React.CSSProperties}
         />
       ))}
-      {[...Array(particleCount)].map((_, i) => (
+      {particleColors.map((color, i) => (
         <motion.div
-          key={`particle-${i}`}
+          key={`${id}-particle-${i}`}
           className="firework-particle"
           style={{
             '--x': `${(Math.random() - 0.5) * 200}px`,
             '--y': `${(Math.random() - 0.5) * 200}px`,
-            background: colors[Math.floor(Math.random() * colors.length)],
-            boxShadow: `0 0 4px ${colors[Math.floor(Math.random() * colors.length)]}`,
+            background: color,
+            boxShadow: `0 0 4px ${color}`,
             animationDelay: `${delay + 0.5}s`
           } as React.CSSProperties}
         />
@@ -537,13 +580,24 @@ const Firework = ({ delay = 0 }: { delay?: number }) => {
 
 // StarrySky component
 const StarrySky = () => {
+  const [elements] = React.useState(() => ({
+    stars: Array.from({ length: 50 }, (_, i) => ({
+      id: `star-${i}`,
+      delay: i * 0.08 // 使用固定的延迟而不是随机值
+    })),
+    fireworks: Array.from({ length: 4 }, (_, i) => ({
+      id: `firework-${i}`,
+      delay: i * 2 // 使用固定的延迟而不是随机值
+    }))
+  }));
+
   return (
     <div className="starry-sky">
-      {[...Array(50)].map((_, i) => (
-        <Star key={`star-${i}`} delay={Math.random() * 4} />
+      {elements.stars.map((star) => (
+        <Star key={star.id} id={star.id} delay={star.delay} />
       ))}
-      {[...Array(4)].map((_, i) => (
-        <Firework key={`firework-${i}`} delay={Math.random() * 8} />
+      {elements.fireworks.map((firework) => (
+        <Firework key={firework.id} id={firework.id} delay={firework.delay} />
       ))}
     </div>
   );
