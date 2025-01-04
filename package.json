@@ -4,11 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "next build",
-    "pages:dev": "wrangler pages dev .next/out",
     "pages:deploy": "next build && wrangler pages deploy .next/out"
   },
   "dependencies": {
