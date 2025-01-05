@@ -1,8 +1,6 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import './globals.css';
+import { useEffect } from 'react';
 
 export default function GlobalError({
   error,
@@ -11,34 +9,21 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  React.useEffect(() => {
-    // Log the error to an error reporting service
-    console.error('Global error:', error);
+  useEffect(() => {
+    console.error('Global Error:', error);
   }, [error]);
 
   return (
-    <html lang="en">
+    <html>
       <body>
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white flex items-center justify-center p-4">
-          <motion.div 
-            className="text-center space-y-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+        <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+          <h2 className="text-2xl font-bold mb-4">Something went wrong!</h2>
+          <button
+            onClick={reset}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
-            <h2 className="text-3xl font-bold text-red-400">Something went wrong!</h2>
-            <p className="text-gray-400 max-w-md mx-auto">
-              {error.message || 'An unexpected error occurred'}
-            </p>
-            <motion.button
-              onClick={() => reset()}
-              className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Try again
-            </motion.button>
-          </motion.div>
+            Try again
+          </button>
         </div>
       </body>
     </html>
