@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Image from 'next/image';
 
 interface Social {
   instagram: string;
@@ -15,6 +16,11 @@ interface Artist {
   location: string;
   image: string;
   social: Social;
+}
+
+interface HologramCardProps {
+  artist: Artist;
+  onClose: () => void;
 }
 
 const sponsoredArtists: Artist[] = [
@@ -780,194 +786,348 @@ const TattooMachine = ({ isHovered, color = "#34D399" }: { isHovered: boolean; c
   </div>
 );
 
+// 添加全息巨幕卡片组件
+const HologramCard = ({ artist, onClose }: HologramCardProps) => {
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div 
+        className="absolute inset-0 bg-black/80 backdrop-blur-lg"
+        onClick={onClose}
+      />
+      <motion.div
+        className="relative bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl overflow-hidden border border-white/10 max-w-4xl w-full mx-4"
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, y: 20 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        style={{
+          boxShadow: `
+            0 0 100px 10px rgba(59, 130, 246, 0.2),
+            0 0 200px 20px rgba(147, 51, 234, 0.1)
+          `
+        }}
+      >
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            background: [
+              'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2) 0%, transparent 70%)',
+              'radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.2) 0%, transparent 70%)',
+              'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2) 0%, transparent 70%)'
+            ]
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <div className="relative p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <motion.div
+              className="aspect-[3/4] rounded-2xl overflow-hidden"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              style={{
+                boxShadow: `
+                  0 0 40px 5px rgba(59, 130, 246, 0.3),
+                  0 0 80px 10px rgba(147, 51, 234, 0.2),
+                  inset 0 0 20px 5px rgba(59, 130, 246, 0.2)
+                `
+              }}
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20"
+                animate={{
+                  opacity: [0.3, 0.5, 0.3]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+              <Image 
+                src={artist.image} 
+                alt={artist.name}
+                width={400}
+                height={600}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+            <motion.div
+              className="space-y-6"
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <div>
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  {artist.name}
+                </h2>
+                <p className="text-xl text-white/60 mt-2">{artist.location}</p>
+              </div>
+              <div className="space-y-4">
+                <div className="flex gap-4">
+                  <a 
+                    href={artist.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span>Instagram</span>
+                  </a>
+                  <a 
+                    href={artist.social.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.957 2.162c-.499 1.33-1.159 2.497-1.957 3.456v-3.62c.666.028 1.319.081 1.957.164zm-1.957-7.219v-3.015c.868-.034 1.721-.103 2.548-.224.238 1.027.389 2.111.446 3.239h-2.994zm0-5.014v-3.661c.806.969 1.471 2.15 1.971 3.496-.642.084-1.3.137-1.971.165zm2.703-3.267c1.237.496 2.354 1.228 3.29 2.146-.642.234-1.311.442-2.019.607-.344-.992-.775-1.91-1.271-2.753zm-7.241 13.56c-.244-1.039-.398-2.136-.456-3.279h2.994v3.057c-.865.034-1.714.102-2.538.222zm2.538 1.776v3.62c-.798-.959-1.458-2.126-1.957-3.456.638-.083 1.291-.136 1.957-.164zm-2.994-7.055c.057-1.128.207-2.212.446-3.239.827.121 1.68.19 2.548.224v3.015h-2.994zm1.024-5.179c.5-1.346 1.165-2.527 1.97-3.496v3.661c-.671-.028-1.329-.081-1.97-.165zm-2.005-.35c-.708-.165-1.377-.373-2.018-.607.937-.918 2.053-1.65 3.29-2.146-.496.844-.927 1.762-1.272 2.753zm-.549 1.918c-.264 1.151-.434 2.36-.492 3.611h-3.933c.165-1.658.739-3.197 1.617-4.518.88.361 1.816.67 2.808.907zm.009 9.262c-.988.236-1.92.542-2.797.9-.89-1.328-1.471-2.879-1.637-4.551h3.934c.058 1.265.231 2.488.5 3.651zm.553 1.917c.342.976.768 1.881 1.257 2.712-1.223-.49-2.326-1.211-3.256-2.115.636-.229 1.299-.435 1.999-.597zm9.924 0c.7.163 1.362.367 1.999.597-.931.903-2.034 1.625-3.257 2.116.489-.832.915-1.737 1.258-2.713zm.553-1.917c.27-1.163.442-2.386.501-3.651h3.934c-.167 1.672-.748 3.223-1.638 4.551-.877-.358-1.81-.664-2.797-.9zm.501-5.651c-.058-1.251-.229-2.46-.492-3.611.992-.237 1.929-.546 2.809-.907.877 1.321 1.451 2.86 1.616 4.518h-3.933z"/>
+                    </svg>
+                    <span>Website</span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 const TimelineItem = ({ artist, index }: { artist: Artist; index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [showHologram, setShowHologram] = useState(false);
   
   const colors = ['#60A5FA', '#34D399', '#F87171', '#A78BFA'];
   const needleColor = colors[index % colors.length];
 
   return (
-    <div className="group relative flex items-center gap-8 py-16">
-      {/* Timeline line */}
-      <div className="absolute left-1/2 top-[-32px] bottom-[-32px] -translate-x-1/2">
-        <div 
-          className="w-[4px] h-full" 
-          style={{
-            background: `linear-gradient(
-              to bottom,
-              transparent,
-              rgba(255, 255, 255, 0.3) 20%,
-              rgba(255, 255, 255, 0.3) 80%,
-              transparent
-            )`,
-            filter: 'blur(0.5px)',
-            boxShadow: '0 0 8px rgba(255, 255, 255, 0.2)'
-          }}
+    <>
+      <motion.div 
+        className="group relative flex items-center gap-8 py-16 cursor-pointer"
+        initial={{ rotateY: 0 }}
+        animate={{ 
+          rotateY: isHovered ? 0 : [0, 360],
+          transition: {
+            duration: isHovered ? 0.3 : 20,
+            repeat: isHovered ? 0 : Infinity,
+            ease: isHovered ? "easeOut" : "linear",
+            delay: isHovered ? 0 : index * 2
+          }
+        }}
+        style={{
+          transformStyle: "preserve-3d",
+          perspective: "1000px"
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => isHovered && setShowHologram(true)}
+      >
+        {/* Timeline line */}
+        <div className="absolute left-1/2 top-[-32px] bottom-[-32px] -translate-x-1/2">
+          <div 
+            className="w-[4px] h-full" 
+            style={{
+              background: `linear-gradient(
+                to bottom,
+                transparent,
+                rgba(255, 255, 255, 0.3) 20%,
+                rgba(255, 255, 255, 0.3) 80%,
+                transparent
+              )`,
+              filter: 'blur(0.5px)',
+              boxShadow: '0 0 8px rgba(255, 255, 255, 0.2)'
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="grid grid-cols-[1fr,auto,1fr] w-full gap-8 items-center">
+          {/* Left side - Image */}
+          <motion.div 
+            className={index % 2 === 0 ? 'block' : 'opacity-0'}
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            <motion.div 
+              className="relative overflow-hidden rounded-2xl aspect-[3/4] bg-black/20"
+              animate={{
+                boxShadow: isHovered 
+                  ? `0 0 40px 2px ${needleColor}40, 0 0 80px 8px ${needleColor}20` 
+                  : `0 0 20px 1px ${needleColor}20, 0 0 40px 4px ${needleColor}10`
+              }}
+              transition={{ duration: 0.4 }}
+            >
+              <motion.div
+                className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                animate={{
+                  opacity: isHovered ? 0.5 : 0.2,
+                  backgroundPosition: isHovered ? "100%" : "0%"
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+                style={{
+                  backgroundSize: "200% 100%"
+                }}
+              />
+              <motion.img
+                src={artist.image}
+                alt={artist.name}
+                className="relative w-full h-full object-cover"
+                animate={{
+                  scale: isHovered ? 1.1 : 1,
+                }}
+                transition={{ duration: 0.4 }}
+              />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6"
+                animate={{
+                  opacity: isHovered ? 1 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="space-y-2">
+                  <p className="text-lg text-white/90">{artist.location}</p>
+                  <div className="flex gap-4">
+                    <a 
+                      href={artist.social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/80 hover:text-blue-400 transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                      </svg>
+                    </a>
+                    <a 
+                      href={artist.social.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/80 hover:text-blue-400 transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.957 2.162c-.499 1.33-1.159 2.497-1.957 3.456v-3.62c.666.028 1.319.081 1.957.164zm-1.957-7.219v-3.015c.868-.034 1.721-.103 2.548-.224.238 1.027.389 2.111.446 3.239h-2.994zm0-5.014v-3.661c.806.969 1.471 2.15 1.971 3.496-.642.084-1.3.137-1.971.165zm2.703-3.267c1.237.496 2.354 1.228 3.29 2.146-.642.234-1.311.442-2.019.607-.344-.992-.775-1.91-1.271-2.753zm-7.241 13.56c-.244-1.039-.398-2.136-.456-3.279h2.994v3.057c-.865.034-1.714.102-2.538.222zm2.538 1.776v3.62c-.798-.959-1.458-2.126-1.957-3.456.638-.083 1.291-.136 1.957-.164zm-2.994-7.055c.057-1.128.207-2.212.446-3.239.827.121 1.68.19 2.548.224v3.015h-2.994zm1.024-5.179c.5-1.346 1.165-2.527 1.97-3.496v3.661c-.671-.028-1.329-.081-1.97-.165zm-2.005-.35c-.708-.165-1.377-.373-2.018-.607.937-.918 2.053-1.65 3.29-2.146-.496.844-.927 1.762-1.272 2.753zm-.549 1.918c-.264 1.151-.434 2.36-.492 3.611h-3.933c.165-1.658.739-3.197 1.617-4.518.88.361 1.816.67 2.808.907zm.009 9.262c-.988.236-1.92.542-2.797.9-.89-1.328-1.471-2.879-1.637-4.551h3.934c.058 1.265.231 2.488.5 3.651zm.553 1.917c.342.976.768 1.881 1.257 2.712-1.223-.49-2.326-1.211-3.256-2.115.636-.229 1.299-.435 1.999-.597zm9.924 0c.7.163 1.362.367 1.999.597-.931.903-2.034 1.625-3.257 2.116.489-.832.915-1.737 1.258-2.713zm.553-1.917c.27-1.163.442-2.386.501-3.651h3.934c-.167 1.672-.748 3.223-1.638 4.551-.877-.358-1.81-.664-2.797-.9zm.501-5.651c-.058-1.251-.229-2.46-.492-3.611.992-.237 1.929-.546 2.809-.907.877 1.321 1.451 2.86 1.616 4.518h-3.933z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Center - Year and Name */}
+          <motion.div 
+            className="relative z-10 -mx-4"
+            style={{ backfaceVisibility: "hidden" }}
+            animate={{
+              scale: isHovered ? 1.1 : 1,
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          >
+            <div className="bg-white/5 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 whitespace-nowrap">
+              <motion.div
+                className="absolute inset-0 rounded-full blur-xl"
+                animate={{
+                  backgroundColor: isHovered ? `${needleColor}33` : "rgba(59, 130, 246, 0)",
+                  scale: isHovered ? 1.2 : 1,
+                }}
+              />
+              <span className="text-blue-400 mr-2">{artist.year}</span>
+              <span className="text-white/90">{artist.name}</span>
+            </div>
+          </motion.div>
+
+          {/* Right side - Image */}
+          <motion.div 
+            className={index % 2 === 0 ? 'opacity-0' : 'block'}
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            <motion.div 
+              className="relative overflow-hidden rounded-2xl aspect-[3/4] bg-black/20"
+              animate={{
+                boxShadow: isHovered 
+                  ? `0 0 40px 2px ${needleColor}40, 0 0 80px 8px ${needleColor}20` 
+                  : `0 0 20px 1px ${needleColor}20, 0 0 40px 4px ${needleColor}10`
+              }}
+              transition={{ duration: 0.4 }}
+            >
+              <motion.div
+                className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                animate={{
+                  opacity: isHovered ? 0.5 : 0.2,
+                  backgroundPosition: isHovered ? "100%" : "0%"
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+                style={{
+                  backgroundSize: "200% 100%"
+                }}
+              />
+              <motion.img
+                src={artist.image}
+                alt={artist.name}
+                className="relative w-full h-full object-cover"
+                animate={{
+                  scale: isHovered ? 1.1 : 1,
+                }}
+                transition={{ duration: 0.4 }}
+              />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6"
+                animate={{
+                  opacity: isHovered ? 1 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="space-y-2">
+                  <p className="text-lg text-white/90">{artist.location}</p>
+                  <div className="flex gap-4">
+                    <a 
+                      href={artist.social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/80 hover:text-blue-400 transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                      </svg>
+                    </a>
+                    <a 
+                      href={artist.social.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/80 hover:text-blue-400 transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.957 2.162c-.499 1.33-1.159 2.497-1.957 3.456v-3.62c.666.028 1.319.081 1.957.164zm-1.957-7.219v-3.015c.868-.034 1.721-.103 2.548-.224.238 1.027.389 2.111.446 3.239h-2.994zm0-5.014v-3.661c.806.969 1.471 2.15 1.971 3.496-.642.084-1.3.137-1.971.165zm2.703-3.267c1.237.496 2.354 1.228 3.29 2.146-.642.234-1.311.442-2.019.607-.344-.992-.775-1.91-1.271-2.753zm-7.241 13.56c-.244-1.039-.398-2.136-.456-3.279h2.994v3.057c-.865.034-1.714.102-2.538.222zm2.538 1.776v3.62c-.798-.959-1.458-2.126-1.957-3.456.638-.083 1.291-.136 1.957-.164zm-2.994-7.055c.057-1.128.207-2.212.446-3.239.827.121 1.68.19 2.548.224v3.015h-2.994zm1.024-5.179c.5-1.346 1.165-2.527 1.97-3.496v3.661c-.671-.028-1.329-.081-1.97-.165zm-2.005-.35c-.708-.165-1.377-.373-2.018-.607.937-.918 2.053-1.65 3.29-2.146-.496.844-.927 1.762-1.272 2.753zm-.549 1.918c-.264 1.151-.434 2.36-.492 3.611h-3.933c.165-1.658.739-3.197 1.617-4.518.88.361 1.816.67 2.808.907zm.009 9.262c-.988.236-1.92.542-2.797.9-.89-1.328-1.471-2.879-1.637-4.551h3.934c.058 1.265.231 2.488.5 3.651zm.553 1.917c.342.976.768 1.881 1.257 2.712-1.223-.49-2.326-1.211-3.256-2.115.636-.229 1.299-.435 1.999-.597zm9.924 0c.7.163 1.362.367 1.999.597-.931.903-2.034 1.625-3.257 2.116.489-.832.915-1.737 1.258-2.713zm.553-1.917c.27-1.163.442-2.386.501-3.651h3.934c-.167 1.672-.748 3.223-1.638 4.551-.877-.358-1.81-.664-2.797-.9zm.501-5.651c-.058-1.251-.229-2.46-.492-3.611.992-.237 1.929-.546 2.809-.907.877 1.321 1.451 2.86 1.616 4.518h-3.933z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.div>
+      
+      {showHologram && (
+        <HologramCard 
+          artist={artist} 
+          onClose={() => setShowHologram(false)} 
         />
-      </div>
-
-      {/* Content */}
-      <div className="grid grid-cols-[1fr,auto,1fr] w-full gap-8 items-center">
-        {/* Left side - Image */}
-        <div className={index % 2 === 0 ? 'block' : 'opacity-0'}>
-          <motion.div 
-            className="relative overflow-hidden rounded-2xl aspect-[3/4] bg-black/20"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            animate={{
-              boxShadow: isHovered 
-                ? `0 0 40px 2px ${needleColor}40, 0 0 80px 8px ${needleColor}20` 
-                : `0 0 20px 1px ${needleColor}20, 0 0 40px 4px ${needleColor}10`
-            }}
-            transition={{ duration: 0.4 }}
-          >
-            <motion.div
-              className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-              animate={{
-                opacity: isHovered ? 0.5 : 0.2,
-                backgroundPosition: isHovered ? "100%" : "0%"
-              }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-              style={{
-                backgroundSize: "200% 100%"
-              }}
-            />
-            <motion.img
-              src={artist.image}
-              alt={artist.name}
-              className="relative w-full h-full object-cover"
-              animate={{
-                scale: isHovered ? 1.1 : 1,
-              }}
-              transition={{ duration: 0.4 }}
-            />
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6"
-              animate={{
-                opacity: isHovered ? 1 : 0,
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="space-y-2">
-                <p className="text-lg text-white/90">{artist.location}</p>
-                <div className="flex gap-4">
-                  <a 
-                    href={artist.social.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/80 hover:text-blue-400 transition-colors"
-                  >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                  </a>
-                  <a 
-                    href={artist.social.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/80 hover:text-blue-400 transition-colors"
-                  >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.957 2.162c-.499 1.33-1.159 2.497-1.957 3.456v-3.62c.666.028 1.319.081 1.957.164zm-1.957-7.219v-3.015c.868-.034 1.721-.103 2.548-.224.238 1.027.389 2.111.446 3.239h-2.994zm0-5.014v-3.661c.806.969 1.471 2.15 1.971 3.496-.642.084-1.3.137-1.971.165zm2.703-3.267c1.237.496 2.354 1.228 3.29 2.146-.642.234-1.311.442-2.019.607-.344-.992-.775-1.91-1.271-2.753zm-7.241 13.56c-.244-1.039-.398-2.136-.456-3.279h2.994v3.057c-.865.034-1.714.102-2.538.222zm2.538 1.776v3.62c-.798-.959-1.458-2.126-1.957-3.456.638-.083 1.291-.136 1.957-.164zm-2.994-7.055c.057-1.128.207-2.212.446-3.239.827.121 1.68.19 2.548.224v3.015h-2.994zm1.024-5.179c.5-1.346 1.165-2.527 1.97-3.496v3.661c-.671-.028-1.329-.081-1.97-.165zm-2.005-.35c-.708-.165-1.377-.373-2.018-.607.937-.918 2.053-1.65 3.29-2.146-.496.844-.927 1.762-1.272 2.753zm-.549 1.918c-.264 1.151-.434 2.36-.492 3.611h-3.933c.165-1.658.739-3.197 1.617-4.518.88.361 1.816.67 2.808.907zm.009 9.262c-.988.236-1.92.542-2.797.9-.89-1.328-1.471-2.879-1.637-4.551h3.934c.058 1.265.231 2.488.5 3.651zm.553 1.917c.342.976.768 1.881 1.257 2.712-1.223-.49-2.326-1.211-3.256-2.115.636-.229 1.299-.435 1.999-.597zm9.924 0c.7.163 1.362.367 1.999.597-.931.903-2.034 1.625-3.257 2.116.489-.832.915-1.737 1.258-2.713zm.553-1.917c.27-1.163.442-2.386.501-3.651h3.934c-.167 1.672-.748 3.223-1.638 4.551-.877-.358-1.81-.664-2.797-.9zm.501-5.651c-.058-1.251-.229-2.46-.492-3.611.992-.237 1.929-.546 2.809-.907.877 1.321 1.451 2.86 1.616 4.518h-3.933z"/>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Center - Year and Name */}
-        <motion.div 
-          className="relative z-10 -mx-4"
-          animate={{
-            scale: isHovered ? 1.1 : 1,
-          }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        >
-          <div className="bg-white/5 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 whitespace-nowrap">
-            <motion.div
-              className="absolute inset-0 rounded-full blur-xl"
-              animate={{
-                backgroundColor: isHovered ? `${needleColor}33` : "rgba(59, 130, 246, 0)",
-                scale: isHovered ? 1.2 : 1,
-              }}
-            />
-            <span className="text-blue-400 mr-2">{artist.year}</span>
-            <span className="text-white/90">{artist.name}</span>
-          </div>
-        </motion.div>
-
-        {/* Right side - Image */}
-        <div className={index % 2 === 0 ? 'opacity-0' : 'block'}>
-          <motion.div 
-            className="relative overflow-hidden rounded-2xl aspect-[3/4] bg-black/20"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            animate={{
-              boxShadow: isHovered 
-                ? `0 0 40px 2px ${needleColor}40, 0 0 80px 8px ${needleColor}20` 
-                : `0 0 20px 1px ${needleColor}20, 0 0 40px 4px ${needleColor}10`
-            }}
-            transition={{ duration: 0.4 }}
-          >
-            <motion.div
-              className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-              animate={{
-                opacity: isHovered ? 0.5 : 0.2,
-                backgroundPosition: isHovered ? "100%" : "0%"
-              }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-              style={{
-                backgroundSize: "200% 100%"
-              }}
-            />
-            <motion.img
-              src={artist.image}
-              alt={artist.name}
-              className="relative w-full h-full object-cover"
-              animate={{
-                scale: isHovered ? 1.1 : 1,
-              }}
-              transition={{ duration: 0.4 }}
-            />
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6"
-              animate={{
-                opacity: isHovered ? 1 : 0,
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="space-y-2">
-                <p className="text-lg text-white/90">{artist.location}</p>
-                <div className="flex gap-4">
-                  <a 
-                    href={artist.social.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/80 hover:text-blue-400 transition-colors"
-                  >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                  </a>
-                  <a 
-                    href={artist.social.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/80 hover:text-blue-400 transition-colors"
-                  >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.957 2.162c-.499 1.33-1.159 2.497-1.957 3.456v-3.62c.666.028 1.319.081 1.957.164zm-1.957-7.219v-3.015c.868-.034 1.721-.103 2.548-.224.238 1.027.389 2.111.446 3.239h-2.994zm0-5.014v-3.661c.806.969 1.471 2.15 1.971 3.496-.642.084-1.3.137-1.971.165zm2.703-3.267c1.237.496 2.354 1.228 3.29 2.146-.642.234-1.311.442-2.019.607-.344-.992-.775-1.91-1.271-2.753zm-7.241 13.56c-.244-1.039-.398-2.136-.456-3.279h2.994v3.057c-.865.034-1.714.102-2.538.222zm2.538 1.776v3.62c-.798-.959-1.458-2.126-1.957-3.456.638-.083 1.291-.136 1.957-.164zm-2.994-7.055c.057-1.128.207-2.212.446-3.239.827.121 1.68.19 2.548.224v3.015h-2.994zm1.024-5.179c.5-1.346 1.165-2.527 1.97-3.496v3.661c-.671-.028-1.329-.081-1.97-.165zm-2.005-.35c-.708-.165-1.377-.373-2.018-.607.937-.918 2.053-1.65 3.29-2.146-.496.844-.927 1.762-1.272 2.753zm-.549 1.918c-.264 1.151-.434 2.36-.492 3.611h-3.933c.165-1.658.739-3.197 1.617-4.518.88.361 1.816.67 2.808.907zm.009 9.262c-.988.236-1.92.542-2.797.9-.89-1.328-1.471-2.879-1.637-4.551h3.934c.058 1.265.231 2.488.5 3.651zm.553 1.917c.342.976.768 1.881 1.257 2.712-1.223-.49-2.326-1.211-3.256-2.115.636-.229 1.299-.435 1.999-.597zm9.924 0c.7.163 1.362.367 1.999.597-.931.903-2.034 1.625-3.257 2.116.489-.832.915-1.737 1.258-2.713zm.553-1.917c.27-1.163.442-2.386.501-3.651h3.934c-.167 1.672-.748 3.223-1.638 4.551-.877-.358-1.81-.664-2.797-.9zm.501-5.651c-.058-1.251-.229-2.46-.492-3.611.992-.237 1.929-.546 2.809-.907.877 1.321 1.451 2.86 1.616 4.518h-3.933z"/>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
@@ -1138,12 +1298,12 @@ export default function Home() {
             </span>
           </motion.h1>
           <motion.p
-            className="text-xl text-center text-white/60 mb-8"
+            className="text-xl text-gray-400 text-center max-w-3xl mx-auto mb-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.7 }}
           >
-            Celebrating the world's most innovative and talented tattoo artists
+            Celebrating the world&apos;s most innovative and talented tattoo artists
           </motion.p>
 
           {/* Centered machine aligned with timeline */}

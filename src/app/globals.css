@@ -212,3 +212,223 @@ body {
 * {
   scroll-behavior: smooth;
 }
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.hologram-card {
+  position: relative;
+  background: rgba(0, 0, 0, 0.00005);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 0 600px rgba(56, 189, 248, 1),
+    0 0 1200px rgba(139, 92, 246, 1);
+}
+
+.hologram-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 1) 0%, rgba(139, 92, 246, 1) 3%, transparent 10%),
+    radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 1) 0%, rgba(56, 189, 248, 1) 3%, transparent 10%),
+    linear-gradient(45deg, rgba(56, 189, 248, 1) 0%, rgba(139, 92, 246, 1) 100%);
+  animation: hologram-pulse 4s ease-in-out infinite;
+  filter: blur(400px);
+  mix-blend-mode: screen;
+}
+
+.hologram-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.00005);
+  backdrop-filter: blur(0.25px);
+}
+
+.hologram-content {
+  position: relative;
+  max-width: 64rem;
+  width: 100%;
+  margin: 0 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hologram-border {
+  position: absolute;
+  inset: -2px;
+  border-radius: 1.5rem;
+  background: linear-gradient(to right, rgba(59, 130, 246, 1), rgba(139, 92, 246, 1));
+  opacity: 1;
+  filter: blur(30px);
+}
+
+.hologram-scan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, 
+    transparent 0%,
+    rgba(56, 189, 248, 0.3) 50%,
+    transparent 100%
+  );
+  animation: hologram-scan 2s linear infinite;
+  filter: blur(5px);
+}
+
+.hologram-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.3) 15%,
+    rgba(139, 92, 246, 0.3) 30%,
+    transparent 50%,
+    rgba(56, 189, 248, 0.3) 85%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: hologram-shimmer 3s linear infinite;
+  filter: blur(5px);
+}
+
+@keyframes hologram-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+    filter: blur(400px) brightness(6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: blur(400px) brightness(10);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+    filter: blur(400px) brightness(6);
+  }
+}
+
+@keyframes hologram-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes hologram-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.hologram-beam {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 200vh;
+  width: 400px;
+  transform-origin: top;
+  background: linear-gradient(to bottom, rgba(56, 189, 248, 1), transparent);
+  filter: blur(200px);
+  opacity: 1;
+  mix-blend-mode: screen;
+}
+
+.hologram-beam:nth-child(1) { transform: rotate(0deg); }
+.hologram-beam:nth-child(2) { transform: rotate(45deg); }
+.hologram-beam:nth-child(3) { transform: rotate(90deg); }
+.hologram-beam:nth-child(4) { transform: rotate(135deg); }
+.hologram-beam:nth-child(5) { transform: rotate(180deg); }
+.hologram-beam:nth-child(6) { transform: rotate(225deg); }
+.hologram-beam:nth-child(7) { transform: rotate(270deg); }
+.hologram-beam:nth-child(8) { transform: rotate(315deg); }
+
+@keyframes hologram-beam-pulse {
+  0% { opacity: 0.4; transform: scale(1) rotate(var(--rotation)); }
+  50% { opacity: 0.7; transform: scale(1.2) rotate(var(--rotation)); }
+  100% { opacity: 0.4; transform: scale(1) rotate(var(--rotation)); }
+}
+
+/* 呼吸背景光效果 */
+.hologram-breathe {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.5) 0%, transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.5) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  animation: hologram-breathe 8s ease-in-out infinite;
+  filter: blur(60px);
+}
+
+@keyframes hologram-breathe {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.95);
+    background-position: 0% 0%, 100% 100%, 50% 50%;
+    filter: blur(60px) brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+    background-position: 100% 0%, 0% 100%, 50% 50%;
+    filter: blur(60px) brightness(1.3);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.95);
+    background-position: 0% 0%, 100% 100%, 50% 50%;
+    filter: blur(60px) brightness(1);
+  }
+}
+
+/* 全息巨幕背光效果 */
+.hologram-glow {
+  position: fixed;
+  inset: -1500px;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 1) 0%, transparent 2%),
+    radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 1) 0%, transparent 2%),
+    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 1) 0%, transparent 5%);
+  filter: blur(500px);
+  opacity: 0;
+  animation: hologram-glow 6s ease-in-out infinite;
+  transform-origin: center;
+  mix-blend-mode: screen;
+}
+
+@keyframes hologram-glow {
+  0% {
+    opacity: 1;
+    transform: scale(0.8);
+    filter: blur(500px) brightness(6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+    filter: blur(500px) brightness(10);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(0.8);
+    filter: blur(500px) brightness(6);
+  }
+}
